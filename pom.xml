@@ -10,6 +10,9 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>JDBC-Example</module>
+        <module>XML-Example</module>
+        <module>Concurrent-Example</module>
+        <module>Simple-Example</module>
     </modules>
 
     <properties>

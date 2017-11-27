@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<view>
+    <name>dc_home_ju_product</name>
+
+    <opkeys>
+        <opkey position="1">promotionId</opkey>
+    </opkeys>
+
+    <inputs>
+        <input source="tao800_deal_base">
+            <datasource>datacenter</datasource>
+            <params>
+                <param name="promotionId" type="LONG" />
+                <param name="_version" type="LONG" />
+            </params>
+        </input>
+    </inputs>
+
+    <opkey-sqls>
+        <opkey-sql inputsource="tao800_deal_base">
+            select
+                promotionId, _version
+            from
+                tao800_deal_base
+            where
+                promotionId = #promotionId#
+        </opkey-sql>
+    </opkey-sqls>
+
+    <data-sqls>
+        <data-sql inputsource="tao800_deal_base">
+            select
+                t1.promotionId, t1.dealId, t1.beginTime, t1.endTime, t1.isShow,
+                t1.sourceType, t1.productId, t1.price, t1.subjectId,
+                t1.brandId, t1._version as tao800DealBase_version
+            from
+                tao800_deal_base t1
+            where
+                t1._valid = 1
+                    and
+                t1.publishStatus = 4 and t1.taoType in (0, 1, 2)
+                    and
+                t1.tbShopId not in (831065, 513383, 368469, 1832897, 1832893, 1832877, 1833039)
+                    and
+                (t1.scBit &amp; 4 > 0 or t1.scBit &amp; 8 > 0)
+                    and
+                t1.priority != -2 and t1.specialProduct = 0 and t1.oosStatus = 0
+                    and
+                t1.showOnJuHome = 1
+                    and
+                t1.promotionId = #promotionId#
+        </data-sql>
+    </data-sqls>
+
+    <update-sqls>
+        <update-sql>
+
+        </update-sql>
+    </update-sqls>
+
+    <datasources>
+        <datasource id="datacenter">
+            <storage>mysql</storage>
+            <configuration>
+                <url>jdbc:mysql://172.28.1.104:3307/datacenter?characterEncoding=utf8</url>
+                <username>root</username>
+                <passport>123456</passport>
+            </configuration>
+        </datasource>
+    </datasources>
+</view>
